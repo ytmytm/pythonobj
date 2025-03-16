@@ -1,16 +1,15 @@
-import pandas as pd
 
-def extract(path):
-  return pd.read_csv(path)
+from CsvExtractor import CsvExtractor
+from JsonLoader import JsonLoader
+from Deduplicator import Deduplicator
+from Job import Job
 
-def transform(df):
-  return df[["Imię"]].drop_duplicates()
+job = Job.Job(
+    input_path = "pracownicy.csv",
+    output_path = "imiona.json",
+    extractor = CsvExtractor.CsvExtractor(),
+    transformer = Deduplicator.Deduplicator("Imię"),
+    loader = JsonLoader.JsonLoader(orient="records",index=False,lines=True)
+)
 
-def load(df, path):
-  return df.to_json(path, orient="records", index=False, lines=True)
-
-
-def job(input_path, output_path):
-  source_data = extract(input_path)
-  transformed_data = transform(source_data)
-  load(transformed_data, output_path)
+job.run()
