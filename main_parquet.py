@@ -1,7 +1,7 @@
 import argparse
 
 from CsvExtractor import CsvExtractor
-from JsonLoader import JsonLoader
+from ParquetLoader import ParquetLoader
 from Deduplicator import Deduplicator
 from Job import Job
 
@@ -20,7 +20,7 @@ if __name__ == '__main__':
       output_path = args.output_path,
       extractor = CsvExtractor.CsvExtractor(),
       transformer = Deduplicator.Deduplicator(args.fields),
-      loader = JsonLoader.JsonLoader(orient=args.orient,index=False,lines=True)
+      loader = ParquetLoader.ParquetLoader()
     )
 
     job.run()
